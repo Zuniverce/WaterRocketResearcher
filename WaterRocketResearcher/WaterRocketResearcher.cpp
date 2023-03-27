@@ -3,6 +3,7 @@
 #include "Parameter.h"
 #include "Rocket.h"
 #include "Factor.h"
+#include <Windows.h>
 
 int main()
 {
@@ -16,5 +17,6 @@ int main()
 	{
 		factor.twoVariable();
 	}
+	system("pause");
 	return 0;
 }
