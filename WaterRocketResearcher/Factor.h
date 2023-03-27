@@ -11,5 +11,7 @@ public:
 	void init();
 	void input();
 	void oneVariable();
+	static double unitTransform(unsigned presentParameter, double value, bool direction);
+
 };
 
