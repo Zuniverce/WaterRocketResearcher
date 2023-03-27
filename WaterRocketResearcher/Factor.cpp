@@ -58,44 +58,44 @@ void Factor::input()
     }
     for (int i = 0; i < numOfVariable; i++)
     {
-        int codeOfParameterInChange = MINUS;
-        while (codeOfParameterInChange < 0 || codeOfParameterInChange >= PARAMETERNUM)
+        int codeOfVariable = MINUS;
+        while (codeOfVariable < 0 || codeOfVariable >= PARAMETERNUM)
         {
             cout << "第 " << i + 1 << " 个变量的代码 (0~" << PARAMETERNUM << "):" << endl;
-            cin >> codeOfParameterInChange;
+            cin >> codeOfVariable;
         }
-        variable.push_back(codeOfParameterInChange);
-        parameter[codeOfParameterInChange].defaultFlag = false;
+        variable.push_back(codeOfVariable);
+        parameter[codeOfVariable].defaultFlag = false;
         double limitValue = MINUS;
         while (limitValue < 0)
         {
-            cout << parameter[codeOfParameterInChange].name << " 上限 " <<
-                parameter[codeOfParameterInChange].unit << ":" << endl;
+            cout << parameter[codeOfVariable].name << " 上限 " <<
+                parameter[codeOfVariable].unit << ":" << endl;
             cin >> limitValue;
         }
-        parameter[codeOfParameterInChange].limit =
-            unitTransform(codeOfParameterInChange, limitValue, true);
+        parameter[codeOfVariable].limit =
+            unitTransform(codeOfVariable, limitValue, true);
         double deltaValue = MINUS;
         while (deltaValue < 0 || deltaValue>limitValue)
         {
-            cout << parameter[codeOfParameterInChange].name << " 间隔 " <<
-                parameter[codeOfParameterInChange].unit << ":" << endl;
+            cout << parameter[codeOfVariable].name << " 间隔 " <<
+                parameter[codeOfVariable].unit << ":" << endl;
             cin >> deltaValue;
         }
-        parameter[codeOfParameterInChange].delta =
-            unitTransform(codeOfParameterInChange, deltaValue, true);
+        parameter[codeOfVariable].delta =
+            unitTransform(codeOfVariable, deltaValue, true);
     }
     for (unsigned i = 0; i < PARAMETERNUM; i++)
     {
-        bool isParameterInChange = false;
+        bool isVariable = false;
         for (int j = 0; j < numOfVariable; j++)
         {
             if (i == variable[j])
             {
-                isParameterInChange = true;
+                isVariable = true;
             }
         }
-        if (isParameterInChange)
+        if (isVariable)
         {
             continue;
         }
@@ -129,7 +129,7 @@ void Factor::input()
 
 void Factor::oneVariable()
 {
-    double sender[PARAMETERNUM];
+    double sender[PARAMETERNUM]{};
     for (unsigned i = 0; i < PARAMETERNUM; i++)
     {
         if (i == variable[0])
@@ -151,6 +151,52 @@ void Factor::oneVariable()
         rocket.run(sender);
         cout << unitTransform(variable[0], sender[variable[0]], false) << " ";
         cout << rocket.result.H_top << endl;
+    }
+}
+
+void Factor::twoVariable()
+{
+    double sender[PARAMETERNUM]{};
+    for (unsigned i = 0; i < PARAMETERNUM; i++)
+    {
+        bool isVariable = false;
+        for (unsigned j = 0; j < variable.size(); j++)
+        {
+            if (i == variable[j])
+            {
+                isVariable = true;
+            }
+        }
+        if (isVariable)
+        {
+            sender[i] = 0;
+        }
+        else
+        {
+            sender[i] = parameter[i].value;
+        }
+    }
+    double iterLimitY = parameter[variable[0]].limit / parameter[variable[0]].delta;
+        double iterLimitX = parameter[variable[0]].limit / parameter[variable[0]].delta;
+    cout << 0;
+    for (unsigned iterX = 0; iterX < iterLimitX; iterX++)
+    {
+
+        sender[variable[1]] += parameter[variable[1]].delta;
+        cout << unitTransform(variable[1], sender[variable[1]], false);
+    }
+    for (unsigned iterY = 0; iterY < iterLimitY; iterY++)
+    {
+        sender[variable[0]] += parameter[variable[0]].delta;
+        sender[variable[1]] = 0;
+        cout << unitTransform(variable[0], sender[variable[0]], false);
+        for (unsigned iterX = 0; iterX < iterLimitX; iterX++)
+        {
+            sender[variable[1]] += parameter[variable[1]].delta;
+            rocket.run(sender);
+            cout << " " << rocket.result.H_top;
+        }
+        cout << endl;
     }
 }
 

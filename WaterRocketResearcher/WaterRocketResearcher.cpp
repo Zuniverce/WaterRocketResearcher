@@ -8,5 +8,12 @@ int main()
 {
 	factor.init();
 	factor.input();
-	factor.oneVariable();
+	if (factor.variable.size() == 1)
+	{
+		factor.oneVariable();
+	}
+	else
+	{
+		factor.twoVariable();
+	}
 }
