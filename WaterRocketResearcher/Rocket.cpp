@@ -31,7 +31,9 @@ void Rocket::run(const double* prmt)
     double V_air = prmt[5] - V_water; //空气体积
     double V_origin = V_air * P_air; //空气膨胀后的体积
     if (V_origin <= prmt[5]) //判断是否能将水完全喷出
+    {
         result.situation = 0; //将飞行状况标记为 OVERWATER
+    }
     double M = prmt[0] + V_water * prmt[4]; //系统总质量
     double h_present = 0, t_present = 0; //当前高度、时间
     double v_e, V_e, m_e; //流速、体积流量、质量流量

@@ -119,7 +119,7 @@ void Factor::input()
         }
         else
         {
-            parameter[i].value = otherParameterValue;
+            parameter[i].value = unitTransform(i, otherParameterValue, true);
         }
     }
     cout << "µü´ú¾«¶È:" << endl;
