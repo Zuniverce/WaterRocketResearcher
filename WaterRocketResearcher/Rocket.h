@@ -1,7 +1,5 @@
 #pragma once
 #include "Global.h"
-#include "Definition.h"
-const double stp = 1e-4; //µü´ú²½³¤(s)
 struct Observation {
 
 };

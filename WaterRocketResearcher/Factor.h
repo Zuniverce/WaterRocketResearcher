@@ -1,6 +1,5 @@
 #pragma once
 #include "Global.h"
-#include "Definition.h"
 #include "Parameter.h"
 class Factor
 {

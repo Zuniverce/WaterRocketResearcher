@@ -1,6 +1,5 @@
 #pragma once
 #include "Global.h"
-#include "Parameter.h"
 #include "Factor.h"	
 #include "Rocket.h"
 #define PARAMETERNUM 6

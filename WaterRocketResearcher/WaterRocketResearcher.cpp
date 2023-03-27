@@ -6,8 +6,7 @@
 
 int main()
 {
-    while (!factor.finished)
-    {
-        //rocket.run(factor.getSender());
-    }
+	factor.init();
+	factor.input();
+	factor.oneVariable();
 }

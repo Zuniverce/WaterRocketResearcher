@@ -1,5 +1,5 @@
 #include "Rocket.h"
-
+#include "Definition.h"
 
 double spray(double x) //根据分段一次函数求喷水流速(相对压强)
 {
@@ -37,20 +37,20 @@ void Rocket::run(const double* prmt)
     double v_e, V_e, m_e; //流速、体积流量、质量流量
     double a = 0, u = 0; //加速度、速度
     bool DROP = false; //下落标记
-    for (; V_water >= 0; t_present += stp) //反冲推进阶段
+    for (; V_water >= 0; t_present += factor.step) //反冲推进阶段
     {
         v_e = spray(P_air); //根据瓶内压强获取喷水速度
         V_e = v_e * VentSize; //计算体积流量
         m_e = prmt[4] * V_e; //计算质量流量
-        M -= m_e * stp; //更新总质量
+        M -= m_e * factor.step; //更新总质量
         a = m_e * v_e / M - prmt[3]; //通过反冲获得加速度
-        h_present += (u * 2 + a * stp) / 2 * stp; //更新当前高度
-        u += a * stp; //更新速度
-        V_water -= V_e * stp; //更新水量
+        h_present += (u * 2 + a * factor.step) / 2 * factor.step; //更新当前高度
+        u += a * factor.step; //更新速度
+        V_water -= V_e * factor.step; //更新水量
         V_air = prmt[5] - V_water; //更新空气体积
         P_air = V_origin / V_air; //理想气体绝热膨胀求压强
 
-        if ((u * 2 + a * stp) <= 0 && !DROP) //下落喷水，即达到最高点
+        if ((u * 2 + a * factor.step) <= 0 && !DROP) //下落喷水，即达到最高点
         {
             result.H_top = h_present;
             result.T_top = t_present;
@@ -67,10 +67,10 @@ void Rocket::run(const double* prmt)
     result.H_recoil = h_present;
     result.T_recoil = t_present;
     result.situation = 1; //将飞行状况标记为 NORMAL
-    for (a = -prmt[3]; h_present > 0; t_present += stp) //自由飞行阶段
+    for (a = -prmt[3]; h_present > 0; t_present += factor.step) //自由飞行阶段
     {
-        u += a * stp; //更新速度
-        h_present += u * stp; //更新当前高度
+        u += a * factor.step; //更新速度
+        h_present += u * factor.step; //更新当前高度
         if (!DROP && u <= 0) //判定下落
         {
             result.H_top = h_present;

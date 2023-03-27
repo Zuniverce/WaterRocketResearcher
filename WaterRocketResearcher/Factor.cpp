@@ -1,4 +1,5 @@
 #include "Factor.h"
+#include "Definition.h"
 void Factor::init()
 {
     finished = false;
@@ -50,6 +51,10 @@ void Factor::input()
     {
         cout << "变量个数 (1~2):" << endl;
         cin >> numOfVariable;
+    }
+    for (unsigned i = 0; i < PARAMETERNUM; i++)
+    {
+        cout << i << " " << parameter[i].name << endl;
     }
     for (int i = 0; i < numOfVariable; i++)
     {
@@ -110,11 +115,11 @@ void Factor::input()
         cin >> otherParameterValue;
         if (otherParameterValue < 0)
         {
-            parameter[i].value = otherParameterValue;
+            parameter[i].value = parameter[i].defaultt;
         }
         else
         {
-            parameter[i].value = parameter[i].defaultt;
+            parameter[i].value = otherParameterValue;
         }
     }
     cout << "迭代精度:" << endl;
@@ -127,13 +132,13 @@ void Factor::oneVariable()
     double sender[PARAMETERNUM];
     for (unsigned i = 0; i < PARAMETERNUM; i++)
     {
-        if (i != variable[0])
+        if (i == variable[0])
         {
-            sender[i] = parameter[i].value;
+            sender[i] = 0;
         }
         else
         {
-            sender[i] = 0;
+            sender[i] = parameter[i].value;
         }
     }
     cout << parameter[variable[0]].name <<
@@ -142,9 +147,9 @@ void Factor::oneVariable()
     double iterLimit = parameter[variable[0]].limit / parameter[variable[0]].delta;
     for (unsigned iter = 0; iter < iterLimit; iter++)
     {
-        sender[iter] += parameter[iter].delta;
+        sender[variable[0]] += parameter[variable[0]].delta;
         rocket.run(sender);
-        cout << unitTransform(variable[0], sender[iter], false) << " ";
+        cout << unitTransform(variable[0], sender[variable[0]], false) << " ";
         cout << rocket.result.H_top << endl;
     }
 }
