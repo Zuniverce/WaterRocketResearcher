@@ -13,6 +13,5 @@ public:
 	void oneVariable();
 	void twoVariable();
 	static double unitTransform(unsigned presentParameter, double value, bool direction);
-
 };
 

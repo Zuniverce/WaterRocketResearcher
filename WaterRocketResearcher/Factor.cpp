@@ -177,11 +177,10 @@ void Factor::twoVariable()
         }
     }
     double iterLimitY = parameter[variable[0]].limit / parameter[variable[0]].delta;
-        double iterLimitX = parameter[variable[0]].limit / parameter[variable[0]].delta;
+    double iterLimitX = parameter[variable[0]].limit / parameter[variable[0]].delta;
     cout << 0;
     for (unsigned iterX = 0; iterX < iterLimitX; iterX++)
     {
-
         sender[variable[1]] += parameter[variable[1]].delta;
         cout << unitTransform(variable[1], sender[variable[1]], false);
     }

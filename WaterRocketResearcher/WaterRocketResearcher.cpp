@@ -16,4 +16,5 @@ int main()
 	{
 		factor.twoVariable();
 	}
+	return 0;
 }
