@@ -47,9 +47,9 @@ void Factor::init()
 void Factor::input()
 {
     int numOfVariable = MINUS;
-    while (numOfVariable < 1 || numOfVariable > 2)
+    while (numOfVariable < 0 || numOfVariable > 2)
     {
-        cout << "变量个数 (1~2):" << endl;
+        cout << "变量个数 (0~2):" << endl;
         cin >> numOfVariable;
     }
     for (unsigned i = 0; i < PARAMETERNUM; i++)
@@ -127,6 +127,17 @@ void Factor::input()
     return;
 }
 
+void Factor::zeroVariable()
+{
+    double sender[PARAMETERNUM]{};
+    for (unsigned i = 0; i < PARAMETERNUM; i++)
+    {
+        sender[i] = parameter[i].value;
+    }
+    rocket.run(sender);
+    rocket.report();
+}
+
 void Factor::oneVariable()
 {
     double sender[PARAMETERNUM]{};
@@ -134,7 +145,7 @@ void Factor::oneVariable()
     {
         if (i == variable[0])
         {
-            sender[i] = 0;
+           sender[i] = 0;
         }
         else
         {

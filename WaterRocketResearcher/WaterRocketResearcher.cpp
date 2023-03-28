@@ -9,13 +9,25 @@ int main()
 {
 	factor.init();
 	factor.input();
-	if (factor.variable.size() == 1)
+	/*if (factor.variable.size() == 1)
 	{
 		factor.oneVariable();
 	}
-	else
+	else 
 	{
 		factor.twoVariable();
+	}*/
+	switch (factor.variable.size())
+	{
+	case 0:
+		factor.zeroVariable();
+	case 1:
+		factor.oneVariable();
+	case 2:
+		factor.twoVariable();
+	default:
+		cout << "error" << endl;
+		break;
 	}
 	system("pause");
 	return 0;
