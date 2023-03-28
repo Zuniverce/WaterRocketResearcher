@@ -26,7 +26,6 @@ int main()
 	case 2:
 		factor.twoVariable();
 	default:
-		cout << "error" << endl;
 		break;
 	}
 	system("pause");
