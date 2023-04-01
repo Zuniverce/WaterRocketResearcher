@@ -10,7 +10,6 @@ public:
 	double limit;       //上限
 	double defaultt;    //默认值
 	bool defaultFlag; //是否存在默认值
-	bool selection; //是否被选中
 	Parameter();
 };
 

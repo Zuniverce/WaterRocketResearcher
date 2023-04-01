@@ -6,5 +6,4 @@ Parameter::Parameter()
 	limit = 0;
 	defaultt = 0;
 	defaultFlag = false;
-	selection = false;
 }
