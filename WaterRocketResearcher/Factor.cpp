@@ -7,35 +7,35 @@ void Factor::init()
     {
         parameter.push_back(Parameter());
     }
-    //±äÁ¿Ãû
-    parameter[0].name = "¼ıÌå¿ÕÖØ";
-    parameter[1].name = "Ë®Á¿";
-    parameter[2].name = "Ïà¶ÔÑ¹Ç¿";
-    parameter[3].name = "ÖØÁ¦¼ÓËÙ¶È";
-    parameter[4].name = "ÍÆ½ø¼ÁÃÜ¶È";
-    parameter[5].name = "ÍÆ½øÆ÷Èİ»ı";
-    //µ¥Î»
+    //å˜é‡å
+    parameter[0].name = "ç®­ä½“ç©ºé‡";
+    parameter[1].name = "æ°´é‡";
+    parameter[2].name = "ç›¸å¯¹å‹å¼º";
+    parameter[3].name = "é‡åŠ›åŠ é€Ÿåº¦";
+    parameter[4].name = "æ¨è¿›å‰‚å¯†åº¦";
+    parameter[5].name = "æ¨è¿›å™¨å®¹ç§¯";
+    //å•ä½
     parameter[0].unit = "(g)";
     parameter[1].unit = "(ml)";
     parameter[2].unit = "(bar)";
     parameter[3].unit = "(m/s^2)";
     parameter[4].unit = "(g/cm^3)";
     parameter[5].unit = "(ml)";
-    //Ä¬ÈÏÖµ
+    //é»˜è®¤å€¼
     parameter[0].defaultt = 0;
     parameter[1].defaultt = 0;
     parameter[2].defaultt = 0;
     parameter[3].defaultt = 9.807;
     parameter[4].defaultt = 1e3;
     parameter[5].defaultt = 1e-3;
-    //ÊÇ·ñ´æÔÚÄ¬ÈÏÖµ
+    //æ˜¯å¦å­˜åœ¨é»˜è®¤å€¼
     parameter[0].defaultFlag = false;
     parameter[1].defaultFlag = false;
     parameter[2].defaultFlag = false;
     parameter[3].defaultFlag = true;
     parameter[4].defaultFlag = true;
     parameter[5].defaultFlag = true;
-    //Ä¬ÈÏÄ£Äâ¼ä¸ô
+    //é»˜è®¤æ¨¡æ‹Ÿé—´éš”
     parameter[0].delta = unitTransform(0, 10, true);
     parameter[1].delta = unitTransform(1, 10, true);
     parameter[2].delta = unitTransform(2, 0.25, true);
@@ -49,7 +49,7 @@ void Factor::input()
     int numOfVariable = MINUS;
     while (numOfVariable < 0 || numOfVariable > 2)
     {
-        cout << "±äÁ¿¸öÊı (0~2):" << endl;
+        cout << "å˜é‡ä¸ªæ•° (0~2):" << endl;
         cin >> numOfVariable;
     }
     for (unsigned i = 0; i < PARAMETERNUM; i++)
@@ -61,7 +61,7 @@ void Factor::input()
         int codeOfVariable = MINUS;
         while (codeOfVariable < 0 || codeOfVariable >= PARAMETERNUM)
         {
-            cout << "µÚ " << i + 1 << " ¸ö±äÁ¿µÄ´úÂë (0~" << PARAMETERNUM << "):" << endl;
+            cout << "ç¬¬ " << i + 1 << " ä¸ªå˜é‡çš„ä»£ç  (0~" << PARAMETERNUM << "):" << endl;
             cin >> codeOfVariable;
         }
         variable.push_back(codeOfVariable);
@@ -69,7 +69,7 @@ void Factor::input()
         double limitValue = MINUS;
         while (limitValue < 0)
         {
-            cout << parameter[codeOfVariable].name << " ÉÏÏŞ " <<
+            cout << parameter[codeOfVariable].name << " ä¸Šé™ " <<
                 parameter[codeOfVariable].unit << ":" << endl;
             cin >> limitValue;
         }
@@ -78,7 +78,7 @@ void Factor::input()
         double deltaValue = MINUS;
         while (deltaValue < 0 || deltaValue>limitValue)
         {
-            cout << parameter[codeOfVariable].name << " ¼ä¸ô " <<
+            cout << parameter[codeOfVariable].name << " é—´éš” " <<
                 parameter[codeOfVariable].unit << ":" << endl;
             cin >> deltaValue;
         }
@@ -104,13 +104,13 @@ void Factor::input()
             parameter[i].unit << ":" << endl;
         if (parameter[i].defaultFlag)
         {
-            cout << "(ÊäÈë-1ÒÔÊ¹ÓÃÄ¬ÈÏÖµ " <<
+            cout << "(è¾“å…¥-1ä»¥ä½¿ç”¨é»˜è®¤å€¼ " <<
                 unitTransform(i, parameter[i].defaultt, false) <<
                 " )" << endl;
         }
         else
         {
-            cout << "(±ØĞëÌîĞ´)" << endl;
+            cout << "(å¿…é¡»å¡«å†™)" << endl;
         }
         cin >> otherParameterValue;
         if (otherParameterValue < 0)
@@ -122,7 +122,7 @@ void Factor::input()
             parameter[i].value = unitTransform(i, otherParameterValue, true);
         }
     }
-    cout << "µü´ú¾«¶È:" << endl;
+    cout << "è¿­ä»£ç²¾åº¦:" << endl;
     cin >> step;
     return;
 }
@@ -154,7 +154,7 @@ void Factor::oneVariable()
     }
     cout << parameter[variable[0]].name <<
         parameter[variable[0]].unit <<
-        " ¸ß¶È" << endl;
+        " é«˜åº¦" << endl;
     double iterLimit = parameter[variable[0]].limit / parameter[variable[0]].delta;
     for (unsigned iter = 0; iter < iterLimit; iter++)
     {

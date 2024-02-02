@@ -1,19 +1,19 @@
 #pragma once
 #include "Global.h"
-struct Observation {
-
+struct Observation
+{
 };
-struct Result {
-	double H_recoil = 0, H_top = 0; //·´³å½áÊø¸ß¶È¡¢×î´ó¸ß¶È
-	double T_recoil = 0, T_top = 0, T_free = 0; //·´³å½áÊøÊ±¼ä¡¢µ½´ï×î¸ßµãµÄÊ±¼ä¡¢×ÔÓÉ·ÉĞĞÊ±¼ä
-	int situation = -1; //·ÉĞĞ×´¿ö£º0 OVERWATER, 1 NORMAL, 2 FALL , 3 CRASH
+struct Result
+{
+	double H_recoil = 0, H_top = 0;				// åå†²ç»“æŸé«˜åº¦ã€æœ€å¤§é«˜åº¦
+	double T_recoil = 0, T_top = 0, T_free = 0; // åå†²ç»“æŸæ—¶é—´ã€åˆ°è¾¾æœ€é«˜ç‚¹çš„æ—¶é—´ã€è‡ªç”±é£è¡Œæ—¶é—´
+	int situation = -1;							// é£è¡ŒçŠ¶å†µï¼š0 OVERWATER, 1 NORMAL, 2 FALL , 3 CRASH
 };
-class Rocket // »ğ¼ıÀà
+class Rocket // ç«ç®­ç±»
 {
 public:
 	Observation observation;
 	Result result;
-	void run(const double* prmt);
+	void run(const double *prmt);
 	void report();
 };
-

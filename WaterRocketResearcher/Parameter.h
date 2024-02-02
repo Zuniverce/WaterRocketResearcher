@@ -3,13 +3,13 @@
 class Parameter
 {
 public:
-	string name;        //²ÎÊıÃû
-	string unit;        //µ¥Î»
-	double value;       //²ÎÊıÖµ
-	double delta;       //±ä»¯¼ä¸ô
-	double limit;       //ÉÏÏŞ
-	double defaultt;    //Ä¬ÈÏÖµ
-	bool defaultFlag; //ÊÇ·ñ´æÔÚÄ¬ÈÏÖµ
+	string name;        //å‚æ•°å
+	string unit;        //å•ä½
+	double value;       //å‚æ•°å€¼
+	double delta;       //å˜åŒ–é—´éš”
+	double limit;       //ä¸Šé™
+	double defaultt;    //é»˜è®¤å€¼
+	bool defaultFlag; //æ˜¯å¦å­˜åœ¨é»˜è®¤å€¼
 	Parameter();
 };
 

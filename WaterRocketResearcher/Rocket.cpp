@@ -1,14 +1,14 @@
 #include "Rocket.h"
 #include "Definition.h"
 
-double spray(double x) //¸ù¾İ·Ö¶ÎÒ»´Îº¯ÊıÇóÅçË®Á÷ËÙ(Ïà¶ÔÑ¹Ç¿)
+double spray(double x) //æ ¹æ®åˆ†æ®µä¸€æ¬¡å‡½æ•°æ±‚å–·æ°´æµé€Ÿ(ç›¸å¯¹å‹å¼º)
 {
-    double jetting_speed_k[19] = { //Ğ±ÂÊ
+    double jetting_speed_k[19] = { //æ–œç‡
         7.8479600 , 6.0184000 , 5.0778000 , 4.4798000 , 4.0376000 , 3.7338000 , 3.4584000 ,
         3.2498000 , 3.0690000 , 2.8904000 , 2.7870000 , 2.6758000 , 2.5564000 , 2.4628000 ,
         0.6756000 , 2.2750000 , 2.1872000 , 2.1362000 , 2.0724000
     };
-    double jetting_speed_b[19] = { //½Ø¾à
+    double jetting_speed_b[19] = { //æˆªè·
         -2.4262200 , 1.2329000 , 3.5844000 , 5.3784000 , 6.9261000 , 8.1413000 , 9.3806000 ,
         10.4236000 ,11.4180000 ,12.4896000 ,13.1617000 ,13.9401000 ,14.8356000 ,15.5844000 ,
         30.4378000 ,15.2435000 ,16.1215000 ,16.6570000 ,17.3588000
@@ -24,73 +24,73 @@ double spray(double x) //¸ù¾İ·Ö¶ÎÒ»´Îº¯ÊıÇóÅçË®Á÷ËÙ(Ïà¶ÔÑ¹Ç¿)
 
 void Rocket::run(const double* prmt)
 {
-    //prmt£º0¿ÕÆ¿ÖÊÁ¿ 1Ë®Á¿ 2Ïà¶ÔÑ¹Ç¿ 3ÖØÁ¦¼ÓËÙ¶È 4ÍÆ½ø¼ÁÃÜ¶È 5ÍÆ½øÆ÷Èİ»ı
-    double VentSize = 6.361725123e-5; //Åç¿ÚÃæ»ı
-    double V_water = prmt[1]; //Ë®Ìå»ı
-    double P_air = prmt[2]; //¾ø¶ÔÑ¹Ç¿
-    double V_air = prmt[5] - V_water; //¿ÕÆøÌå»ı
-    double V_origin = V_air * P_air; //¿ÕÆøÅòÕÍºóµÄÌå»ı
-    if (V_origin <= prmt[5]) //ÅĞ¶ÏÊÇ·ñÄÜ½«Ë®ÍêÈ«Åç³ö
+    //prmtï¼š0ç©ºç“¶è´¨é‡ 1æ°´é‡ 2ç›¸å¯¹å‹å¼º 3é‡åŠ›åŠ é€Ÿåº¦ 4æ¨è¿›å‰‚å¯†åº¦ 5æ¨è¿›å™¨å®¹ç§¯
+    double VentSize = 6.361725123e-5; //å–·å£é¢ç§¯
+    double V_water = prmt[1]; //æ°´ä½“ç§¯
+    double P_air = prmt[2]; //ç»å¯¹å‹å¼º
+    double V_air = prmt[5] - V_water; //ç©ºæ°”ä½“ç§¯
+    double V_origin = V_air * P_air; //ç©ºæ°”è†¨èƒ€åçš„ä½“ç§¯
+    if (V_origin <= prmt[5]) //åˆ¤æ–­æ˜¯å¦èƒ½å°†æ°´å®Œå…¨å–·å‡º
     {
-        result.situation = 0; //½«·ÉĞĞ×´¿ö±ê¼ÇÎª OVERWATER
+        result.situation = 0; //å°†é£è¡ŒçŠ¶å†µæ ‡è®°ä¸º OVERWATER
     }
-    double M = prmt[0] + V_water * prmt[4]; //ÏµÍ³×ÜÖÊÁ¿
-    double h_present = 0, t_present = 0; //µ±Ç°¸ß¶È¡¢Ê±¼ä
-    double v_e, V_e, m_e; //Á÷ËÙ¡¢Ìå»ıÁ÷Á¿¡¢ÖÊÁ¿Á÷Á¿
-    double a = 0, u = 0; //¼ÓËÙ¶È¡¢ËÙ¶È
-    bool DROP = false; //ÏÂÂä±ê¼Ç
-    for (; V_water >= 0; t_present += factor.step) //·´³åÍÆ½ø½×¶Î
+    double M = prmt[0] + V_water * prmt[4]; //ç³»ç»Ÿæ€»è´¨é‡
+    double h_present = 0, t_present = 0; //å½“å‰é«˜åº¦ã€æ—¶é—´
+    double v_e, V_e, m_e; //æµé€Ÿã€ä½“ç§¯æµé‡ã€è´¨é‡æµé‡
+    double a = 0, u = 0; //åŠ é€Ÿåº¦ã€é€Ÿåº¦
+    bool DROP = false; //ä¸‹è½æ ‡è®°
+    for (; V_water >= 0; t_present += factor.step) //åå†²æ¨è¿›é˜¶æ®µ
     {
-        v_e = spray(P_air); //¸ù¾İÆ¿ÄÚÑ¹Ç¿»ñÈ¡ÅçË®ËÙ¶È
-        V_e = v_e * VentSize; //¼ÆËãÌå»ıÁ÷Á¿
-        m_e = prmt[4] * V_e; //¼ÆËãÖÊÁ¿Á÷Á¿
-        M -= m_e * factor.step; //¸üĞÂ×ÜÖÊÁ¿
-        a = m_e * v_e / M - prmt[3]; //Í¨¹ı·´³å»ñµÃ¼ÓËÙ¶È
-        h_present += (u * 2 + a * factor.step) / 2 * factor.step; //¸üĞÂµ±Ç°¸ß¶È
-        u += a * factor.step; //¸üĞÂËÙ¶È
-        V_water -= V_e * factor.step; //¸üĞÂË®Á¿
-        V_air = prmt[5] - V_water; //¸üĞÂ¿ÕÆøÌå»ı
-        P_air = V_origin / V_air; //ÀíÏëÆøÌå¾øÈÈÅòÕÍÇóÑ¹Ç¿
+        v_e = spray(P_air); //æ ¹æ®ç“¶å†…å‹å¼ºè·å–å–·æ°´é€Ÿåº¦
+        V_e = v_e * VentSize; //è®¡ç®—ä½“ç§¯æµé‡
+        m_e = prmt[4] * V_e; //è®¡ç®—è´¨é‡æµé‡
+        M -= m_e * factor.step; //æ›´æ–°æ€»è´¨é‡
+        a = m_e * v_e / M - prmt[3]; //é€šè¿‡åå†²è·å¾—åŠ é€Ÿåº¦
+        h_present += (u * 2 + a * factor.step) / 2 * factor.step; //æ›´æ–°å½“å‰é«˜åº¦
+        u += a * factor.step; //æ›´æ–°é€Ÿåº¦
+        V_water -= V_e * factor.step; //æ›´æ–°æ°´é‡
+        V_air = prmt[5] - V_water; //æ›´æ–°ç©ºæ°”ä½“ç§¯
+        P_air = V_origin / V_air; //ç†æƒ³æ°”ä½“ç»çƒ­è†¨èƒ€æ±‚å‹å¼º
 
-        if ((u * 2 + a * factor.step) <= 0 && !DROP) //ÏÂÂäÅçË®£¬¼´´ïµ½×î¸ßµã
+        if ((u * 2 + a * factor.step) <= 0 && !DROP) //ä¸‹è½å–·æ°´ï¼Œå³è¾¾åˆ°æœ€é«˜ç‚¹
         {
             result.H_top = h_present;
             result.T_top = t_present;
-            result.situation = 2; //½«·ÉĞĞ×´¿ö±ê¼ÇÎª FALL
-            DROP = true; //½«ÏÂÂä±ê¼Ç¸ü¸ÄÎªÕæ
+            result.situation = 2; //å°†é£è¡ŒçŠ¶å†µæ ‡è®°ä¸º FALL
+            DROP = true; //å°†ä¸‹è½æ ‡è®°æ›´æ”¹ä¸ºçœŸ
         }
-        if (DROP && h_present <= 0) //ÅĞ¶¨´¥µØÅçË®  
+        if (DROP && h_present <= 0) //åˆ¤å®šè§¦åœ°å–·æ°´  
         {
             result.T_recoil = t_present;
-            result.situation = 3; //½«·ÉĞĞ×´¿ö±ê¼ÇÎª CRASH
-            return; //½áÊøÄ£Äâ
+            result.situation = 3; //å°†é£è¡ŒçŠ¶å†µæ ‡è®°ä¸º CRASH
+            return; //ç»“æŸæ¨¡æ‹Ÿ
         }
     }
     result.H_recoil = h_present;
     result.T_recoil = t_present;
-    result.situation = 1; //½«·ÉĞĞ×´¿ö±ê¼ÇÎª NORMAL
-    for (a = -prmt[3]; h_present > 0; t_present += factor.step) //×ÔÓÉ·ÉĞĞ½×¶Î
+    result.situation = 1; //å°†é£è¡ŒçŠ¶å†µæ ‡è®°ä¸º NORMAL
+    for (a = -prmt[3]; h_present > 0; t_present += factor.step) //è‡ªç”±é£è¡Œé˜¶æ®µ
     {
-        u += a * factor.step; //¸üĞÂËÙ¶È
-        h_present += u * factor.step; //¸üĞÂµ±Ç°¸ß¶È
-        if (!DROP && u <= 0) //ÅĞ¶¨ÏÂÂä
+        u += a * factor.step; //æ›´æ–°é€Ÿåº¦
+        h_present += u * factor.step; //æ›´æ–°å½“å‰é«˜åº¦
+        if (!DROP && u <= 0) //åˆ¤å®šä¸‹è½
         {
             result.H_top = h_present;
             result.T_top = t_present;
-            DROP = true; //½«ÏÂÂä±ê¼Ç¸ü¸ÄÎªÕæ
+            DROP = true; //å°†ä¸‹è½æ ‡è®°æ›´æ”¹ä¸ºçœŸ
         }
     }
-    result.T_free = t_present - result.T_recoil; //×ÔÓÉ·ÉĞĞÊ±¼ä
+    result.T_free = t_present - result.T_recoil; //è‡ªç”±é£è¡Œæ—¶é—´
     return;
 }
 
 void Rocket::report()
 {
-    cout << "×î´ó¸ß¶È : " << result.H_top << endl;
-    cout << "·´³å½áÊø¸ß¶È : " << result.H_recoil << endl;
-    cout << "·´³å½áÊøÊ±¼ä : " << result.T_recoil << endl;
-    cout << "×ÔÓÉ·ÉĞĞÊ±¼ä : " << result.T_free << endl;
-    cout << "×î´ó¸ß¶ÈÊ±¿Ì : " << result.T_top << endl;
-    cout << "·ÉĞĞ×´¿ö : " << result.situation << endl;
+    cout << "æœ€å¤§é«˜åº¦ : " << result.H_top << endl;
+    cout << "åå†²ç»“æŸé«˜åº¦ : " << result.H_recoil << endl;
+    cout << "åå†²ç»“æŸæ—¶é—´ : " << result.T_recoil << endl;
+    cout << "è‡ªç”±é£è¡Œæ—¶é—´ : " << result.T_free << endl;
+    cout << "æœ€å¤§é«˜åº¦æ—¶åˆ» : " << result.T_top << endl;
+    cout << "é£è¡ŒçŠ¶å†µ : " << result.situation << endl;
     cout << "(0 OVERWATER, 1 NORMAL, 2 FALL , 3 CRASH)" << endl;
 }
