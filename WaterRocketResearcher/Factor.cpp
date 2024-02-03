@@ -67,16 +67,16 @@ void Factor::input()
         }
         variable.push_back(codeOfVariable);
         parameter[codeOfVariable].defaultFlag = false;
-        double limitValue = MINUS;
-        while (limitValue < 0)
+        double maxValue = MINUS;
+        while (maxValue < 0)
         {
             cout << parameter[codeOfVariable].name << " 上限 " << parameter[codeOfVariable].unit << ":" << endl;
-            cin >> limitValue;
+            cin >> maxValue;
         }
-        parameter[codeOfVariable].limit =
-            unitTransform(codeOfVariable, limitValue, true);
+        parameter[codeOfVariable].max =
+            unitTransform(codeOfVariable, maxValue, true);
         double deltaValue = MINUS;
-        while (deltaValue < 0 || deltaValue > limitValue)
+        while (deltaValue < 0 || deltaValue > maxValue)
         {
             cout << parameter[codeOfVariable].name << " 间隔 " << parameter[codeOfVariable].unit << ":" << endl;
             cin >> deltaValue;
@@ -149,8 +149,8 @@ void Factor::oneVariable()
         }
     }
     cout << parameter[variable[0]].name << parameter[variable[0]].unit << " 高度" << endl;
-    double iterLimit = parameter[variable[0]].limit / parameter[variable[0]].delta;
-    for (unsigned iter = 0; iter < iterLimit; iter++)
+    double itermax = parameter[variable[0]].max / parameter[variable[0]].delta;
+    for (unsigned iter = 0; iter < itermax; iter++)
     {
         sender[variable[0]] += parameter[variable[0]].delta;
         rocket.run(sender);
@@ -181,20 +181,20 @@ void Factor::twoVariable()
             sender[i] = parameter[i].value;
         }
     }
-    double iterLimitY = parameter[variable[0]].limit / parameter[variable[0]].delta;
-    double iterLimitX = parameter[variable[0]].limit / parameter[variable[0]].delta;
+    double itermaxY = parameter[variable[0]].max / parameter[variable[0]].delta;
+    double itermaxX = parameter[variable[0]].max / parameter[variable[0]].delta;
     cout << 0;
-    for (unsigned iterX = 0; iterX < iterLimitX; iterX++)
+    for (unsigned iterX = 0; iterX < itermaxX; iterX++)
     {
         sender[variable[1]] += parameter[variable[1]].delta;
         cout << unitTransform(variable[1], sender[variable[1]], false);
     }
-    for (unsigned iterY = 0; iterY < iterLimitY; iterY++)
+    for (unsigned iterY = 0; iterY < itermaxY; iterY++)
     {
         sender[variable[0]] += parameter[variable[0]].delta;
         sender[variable[1]] = 0;
         cout << unitTransform(variable[0], sender[variable[0]], false);
-        for (unsigned iterX = 0; iterX < iterLimitX; iterX++)
+        for (unsigned iterX = 0; iterX < itermaxX; iterX++)
         {
             sender[variable[1]] += parameter[variable[1]].delta;
             rocket.run(sender);
