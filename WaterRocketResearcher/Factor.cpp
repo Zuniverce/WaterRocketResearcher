@@ -47,42 +47,40 @@ void Factor::init()
 
 void Factor::input()
 {
-    int numOfVariable = MINUS;
-    while (numOfVariable < 0 || numOfVariable > 2)
+    int numOfVariable;
+    do
     {
         cout << "变量个数 (0~2):" << endl;
         cin >> numOfVariable;
-    }
+    } while (numOfVariable < 0 || numOfVariable > 2);
     for (unsigned i = 0; i < PARAMETERNUM; i++)
     {
         cout << i << " " << parameter[i].name << endl;
     }
     for (int i = 0; i < numOfVariable; i++)
     {
-        int codeOfVariable = MINUS;
-        while (codeOfVariable < 0 || codeOfVariable >= PARAMETERNUM)
+        int codeOfVariable;
+        do
         {
             cout << "第 " << i + 1 << " 个变量的代码 (0~" << PARAMETERNUM << "):" << endl;
             cin >> codeOfVariable;
-        }
+        } while (codeOfVariable < 0 || codeOfVariable >= PARAMETERNUM);
         variable.push_back(codeOfVariable);
         parameter[codeOfVariable].defaultFlag = false;
-        double maxValue = MINUS;
-        while (maxValue < 0)
+        double maxValue;
+        do
         {
             cout << parameter[codeOfVariable].name << " 上限 " << parameter[codeOfVariable].unit << ":" << endl;
             cin >> maxValue;
-        }
-        parameter[codeOfVariable].max =
-            unitTransform(codeOfVariable, maxValue, true);
-        double deltaValue = MINUS;
-        while (deltaValue < 0 || deltaValue > maxValue)
+        } while (maxValue < 0);
+        parameter[codeOfVariable].max = unitTransform(codeOfVariable, maxValue, true);
+        double deltaValue;
+        do
         {
             cout << parameter[codeOfVariable].name << " 间隔 " << parameter[codeOfVariable].unit << ":" << endl;
             cin >> deltaValue;
-        }
-        parameter[codeOfVariable].delta =
-            unitTransform(codeOfVariable, deltaValue, true);
+        } while (deltaValue < 0 || deltaValue > maxValue);
+        parameter[codeOfVariable].delta = unitTransform(codeOfVariable, deltaValue, true);
     }
     for (unsigned i = 0; i < PARAMETERNUM; i++)
     {
@@ -155,7 +153,7 @@ void Factor::oneVariable()
         sender[variable[0]] += parameter[variable[0]].delta;
         rocket.run(sender);
         cout << unitTransform(variable[0], sender[variable[0]], false) << " ";
-        cout << rocket.result.H_top << endl;
+        cout << rocket.result.topHeight << endl;
     }
 }
 
@@ -198,7 +196,7 @@ void Factor::twoVariable()
         {
             sender[variable[1]] += parameter[variable[1]].delta;
             rocket.run(sender);
-            cout << " " << rocket.result.H_top;
+            cout << " " << rocket.result.topHeight;
         }
         cout << endl;
     }
