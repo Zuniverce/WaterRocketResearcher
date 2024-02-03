@@ -4,8 +4,8 @@
 class Factor
 {
 public:
-	vector<Parameter>parameter;
-	vector<unsigned>variable;
+	vector<Parameter> parameter;
+	vector<unsigned> variable;
 	double step;
 	bool finished;
 	void init();
@@ -15,4 +15,3 @@ public:
 	void twoVariable();
 	static double unitTransform(unsigned presentParameter, double value, bool direction);
 };
-

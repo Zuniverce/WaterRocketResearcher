@@ -1,5 +1,6 @@
 #include "Factor.h"
 #include "Definition.h"
+#include <math.h>
 void Factor::init()
 {
     finished = false;
@@ -7,35 +8,35 @@ void Factor::init()
     {
         parameter.push_back(Parameter());
     }
-    //变量名
+    // 变量名
     parameter[0].name = "箭体空重";
     parameter[1].name = "水量";
     parameter[2].name = "相对压强";
     parameter[3].name = "重力加速度";
     parameter[4].name = "推进剂密度";
     parameter[5].name = "推进器容积";
-    //单位
+    // 单位
     parameter[0].unit = "(g)";
     parameter[1].unit = "(ml)";
     parameter[2].unit = "(bar)";
     parameter[3].unit = "(m/s^2)";
     parameter[4].unit = "(g/cm^3)";
     parameter[5].unit = "(ml)";
-    //默认值
+    // 默认值
     parameter[0].defaultt = 0;
     parameter[1].defaultt = 0;
     parameter[2].defaultt = 0;
     parameter[3].defaultt = 9.807;
     parameter[4].defaultt = 1e3;
     parameter[5].defaultt = 1e-3;
-    //是否存在默认值
+    // 是否存在默认值
     parameter[0].defaultFlag = false;
     parameter[1].defaultFlag = false;
     parameter[2].defaultFlag = false;
     parameter[3].defaultFlag = true;
     parameter[4].defaultFlag = true;
     parameter[5].defaultFlag = true;
-    //默认模拟间隔
+    // 默认模拟间隔
     parameter[0].delta = unitTransform(0, 10, true);
     parameter[1].delta = unitTransform(1, 10, true);
     parameter[2].delta = unitTransform(2, 0.25, true);
@@ -69,17 +70,15 @@ void Factor::input()
         double limitValue = MINUS;
         while (limitValue < 0)
         {
-            cout << parameter[codeOfVariable].name << " 上限 " <<
-                parameter[codeOfVariable].unit << ":" << endl;
+            cout << parameter[codeOfVariable].name << " 上限 " << parameter[codeOfVariable].unit << ":" << endl;
             cin >> limitValue;
         }
         parameter[codeOfVariable].limit =
             unitTransform(codeOfVariable, limitValue, true);
         double deltaValue = MINUS;
-        while (deltaValue < 0 || deltaValue>limitValue)
+        while (deltaValue < 0 || deltaValue > limitValue)
         {
-            cout << parameter[codeOfVariable].name << " 间隔 " <<
-                parameter[codeOfVariable].unit << ":" << endl;
+            cout << parameter[codeOfVariable].name << " 间隔 " << parameter[codeOfVariable].unit << ":" << endl;
             cin >> deltaValue;
         }
         parameter[codeOfVariable].delta =
@@ -100,13 +99,10 @@ void Factor::input()
             continue;
         }
         double otherParameterValue = MINUS;
-        cout << parameter[i].name << " " <<
-            parameter[i].unit << ":" << endl;
+        cout << parameter[i].name << " " << parameter[i].unit << ":" << endl;
         if (parameter[i].defaultFlag)
         {
-            cout << "(输入-1以使用默认值 " <<
-                unitTransform(i, parameter[i].defaultt, false) <<
-                " )" << endl;
+            cout << "(输入-1以使用默认值 " << unitTransform(i, parameter[i].defaultt, false) << " )" << endl;
         }
         else
         {
@@ -145,16 +141,14 @@ void Factor::oneVariable()
     {
         if (i == variable[0])
         {
-           sender[i] = 0;
+            sender[i] = 0;
         }
         else
         {
             sender[i] = parameter[i].value;
         }
     }
-    cout << parameter[variable[0]].name <<
-        parameter[variable[0]].unit <<
-        " 高度" << endl;
+    cout << parameter[variable[0]].name << parameter[variable[0]].unit << " 高度" << endl;
     double iterLimit = parameter[variable[0]].limit / parameter[variable[0]].delta;
     for (unsigned iter = 0; iter < iterLimit; iter++)
     {

@@ -3,20 +3,11 @@
 #include "Parameter.h"
 #include "Rocket.h"
 #include "Factor.h"
-#include <Windows.h>
 
 int main()
 {
 	factor.init();
 	factor.input();
-	/*if (factor.variable.size() == 1)
-	{
-		factor.oneVariable();
-	}
-	else 
-	{
-		factor.twoVariable();
-	}*/
 	switch (factor.variable.size())
 	{
 	case 0:
@@ -28,6 +19,5 @@ int main()
 	default:
 		break;
 	}
-	system("pause");
 	return 0;
 }

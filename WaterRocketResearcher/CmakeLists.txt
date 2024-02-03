@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.12)
+project(WaterRocketReasearcher)
+
+# 添加可执行文件
+add_executable(WaterRocketResearcher WaterRocketResearcher.cpp Definition.cpp Factor.cpp Parameter.cpp Rocket.cpp)
