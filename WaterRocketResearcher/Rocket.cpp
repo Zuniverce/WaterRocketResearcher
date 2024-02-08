@@ -8,11 +8,11 @@
 #define PROPELLANT_DENSITY 4
 #define PROPELLER_VOLUME 5
 
-double jettingSpeedK[19] = { // 斜率
+double spraySpeedK[19] = { // 斜率
     7.8479600, 6.0184000, 5.0778000, 4.4798000, 4.0376000, 3.7338000, 3.4584000,
     3.2498000, 3.0690000, 2.8904000, 2.7870000, 2.6758000, 2.5564000, 2.4628000,
     0.6756000, 2.2750000, 2.1872000, 2.1362000, 2.0724000};
-double jettingSpeedB[19] = { // 截距
+double spraySpeedB[19] = { // 截距
     -2.4262200, 1.2329000, 3.5844000, 5.3784000, 6.9261000, 8.1413000, 9.3806000,
     10.4236000, 11.4180000, 12.4896000, 13.1617000, 13.9401000, 14.8356000, 15.5844000,
     30.4378000, 15.2435000, 16.1215000, 16.6570000, 17.3588000};
@@ -22,9 +22,9 @@ double spray(double x) // 根据分段一次函数求喷水流速(相对压强)
     if (x < 1.5)
         return 18.6914400 * x - 28.0371600;
     else if (x >= 11)
-        return jettingSpeedK[18] * x + jettingSpeedB[18];
+        return spraySpeedK[18] * x + spraySpeedB[18];
     else
-        return jettingSpeedK[int(int(x * 2) - 3)] * x + jettingSpeedB[int(int(x * 2) - 3)];
+        return spraySpeedK[int(int(x * 2) - 3)] * x + spraySpeedB[int(int(x * 2) - 3)];
 }
 
 void Rocket::run(const double *parameters)
